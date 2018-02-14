@@ -19,9 +19,16 @@
 
 
 // window.onload = function () {
+    
 // BEGIN GLOBAL VARIABLES
 // Number of wins - starts at zero, will increase as user accumulate wins.
 var wins = 0;
+
+// Letters that have been guessed.
+var lettersGuessed = [];
+
+// The hidden word to be revealed letter by letter
+var hiddenWord = [];
 
 // Harry Potter-themed words to be guessed.
 var potterWords = [
@@ -43,25 +50,20 @@ var potterWords = [
     "WAND",
 ]
 
-// Randomly choose a potterWord to be called later
+// Randomly choose a potterWord and convert to an array
 var potterIndex = Math.floor(Math.random() * potterWords.length);
-var activeWord = potterWords[potterIndex];
+var activeWord = Array.from(potterWords[potterIndex]);
 
 // Show dashes in the dom in lieu of the activeWord
-
 for (i = 0; i < activeWord.length; i++) {
-    var dashNode = document.createTextNode("-");
-    document.getElementById("active-word").appendChild(dashNode);
+    hiddenWord[i] = "-";
 }
+document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
 
 // Number of guesses remaining. User will have a number of guesses 1.75x the length of the word to complete.
 var guessesRemaining = Math.floor(activeWord.length * 1.75);
 document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
-// this won't work yet, so we're going with 15
-// var guessesRemaining = 15;
 
-// Letters that have been guessed.
-var lettersGuessed = [];
 
 // When key pressed =================================================================================================
 document.onkeyup = function keyPress(event) {
@@ -70,14 +72,14 @@ document.onkeyup = function keyPress(event) {
     var key = event.keyCode;
     if ((key >= 65 && key <= 90) || (key == 8)) {
 
-        //the charachter is captured, converted it to uppercase, and saves it to a variable
+        //the charachter is captured, converted to uppercase, and saves it to variable userLetter
         var userLetter = String.fromCharCode(event.which).toUpperCase();
 
-        // search the array for userLetter
-        var findGuess = lettersGuessed.indexOf(userLetter);
+        // Search lettersGuessed for the userLetter
+        var findGuessed = lettersGuessed.indexOf(userLetter);
 
         // if userLetter IS NOT in lettersGuessed...
-        if (findGuess === -1) {
+        if (findGuessed === -1) {
 
             // push the key pressed to the lettersGuessed array
             var addLetters = lettersGuessed.push(userLetter);
@@ -86,19 +88,42 @@ document.onkeyup = function keyPress(event) {
             // .join(" ") produces a cleaner, minimal visual (no commas) in lieu of solely displaying the lettersGuessed array
             document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
 
+            // the value of the variable is written to the chosen-letter ID in the document
+            document.querySelector("#chosen-letter").innerHTML = userLetter;
+
+            // Search activeWord for the userLetter
+            var findLetterIndex = activeWord.indexOf(userLetter);
+
+            // If userLetter IS in activeWord...
+            if (~findLetterIndex) {
+
+                // Replace the dash in hiddenWord with the userLetter
+                for (u = 0; u < activeWord.length; u++) {
+                    if (activeWord[u] === userLetter) {
+                        hiddenWord[u] = userLetter;
+                        document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
+                    }
+                }
+
+                // hiddenWord[findLetter] = userLetter;
+                console.log("you found the letter " + userLetter);
+
+            // If userLetter IS NOT in active Word
+            } else {
+
             // The number of guesses remaining is reduced and replaced in the DOM
             guessesRemaining--;
             document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 
-            //the value of the variable is written to the chosen-letter ID in the document
-            document.querySelector("#chosen-letter").innerHTML = userLetter;
+            }
 
-            // if userLetter IS in lettersGuessed... 
+        // if userLetter IS in lettersGuessed... 
         } else {
 
             // Tell the user to pick something else
             alert("You have already guessed " + userLetter);
         }
+    // test to ensure non-alpha keys register
     } else {
         console.log("please select a letter of the alphabet");
     }
