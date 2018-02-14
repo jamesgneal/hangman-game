@@ -1,25 +1,3 @@
-// BEGIN PSEUDOCODE
-
-// link to the html page
-
-// on page load:
-// display instructions and "press enter to start"
-
-// press enter:
-// randomly select from the array of game words
-// display game area
-
-// on a key event:
-// read which key was pressed
-// loop to compare key value to each index position of the word array
-// reduce number of guesses remaining
-// if correct, reveal position in 
-
-// END PSEUDOCODE
-
-
-// window.onload = function () {
-
 // BEGIN GLOBAL VARIABLES
 // Number of wins - starts at zero, will increase as user accumulate wins.
 var wins = 0;
@@ -54,7 +32,6 @@ var potterWords = [
 // Randomly choose a potterWord, converts to an array, and removes the word for subesquent rounds
 var potterIndex = Math.floor(Math.random() * potterWords.length);
 var activeWord = Array.from(potterWords[potterIndex]);
-potterWords.splice(potterIndex, 1);
 
 // Show dashes in the dom in lieu of the activeWord
 for (i = 0; i < activeWord.length; i++) {
@@ -65,6 +42,36 @@ document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
 // Number of guesses remaining. User will start with 15;
 var guessesRemaining = 15;
 document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+
+function gameStart() {
+
+    // reset letters that have been guessed.
+    lettersGuessed = [];
+
+    // reset the hidden word to be revealed letter by letter
+    hiddenWord = [];
+
+    // Randomly choose a potterWord, converts to an array, and removes the word for subesquent rounds
+    potterIndex = Math.floor(Math.random() * potterWords.length);
+    activeWord = Array.from(potterWords[potterIndex]);
+    potterWords.splice(potterIndex, 1);
+
+    // Cheating for easy debugging ============================== DELETE LATER ======================================
+    console.log(activeWord.join(" "));
+
+    // Show dashes in the dom in lieu of the activeWord
+    for (i = 0; i < activeWord.length; i++) {
+        hiddenWord[i] = "-";
+    }
+    document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
+
+    // Reset guesses to 15;
+    guessesRemaining = 15;
+    document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+
+}
+
+gameStart();
 
 
 // When key pressed =================================================================================================
@@ -90,9 +97,6 @@ document.onkeyup = function keyPress(event) {
             // .join(" ") produces a cleaner, minimal visual (no commas) in lieu of solely displaying the lettersGuessed array
             document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
 
-            // the value of the variable is written to the chosen-letter ID in the document
-            document.querySelector("#chosen-letter").innerHTML = userLetter;
-
             // Search activeWord for the userLetter
             var findLetterIndex = activeWord.indexOf(userLetter);
 
@@ -116,12 +120,15 @@ document.onkeyup = function keyPress(event) {
                 // If user has guessed all letters in activeWord...
                 if (checkWin === -1) {
 
-                    // Win!
-                    alert("YOU WIN!");
-
                     // Increase the win count and display in the DOM
                     wins++;
                     document.querySelector("#win-count").innerHTML = wins;
+
+                    // Win!
+                    alert("You correctly spelled " + activeWord.join(" ") + "! On to the next word...");
+
+                    // reset the game area
+                    gameStart();
                 }
 
             // If userLetter IS NOT in active Word
@@ -135,22 +142,23 @@ document.onkeyup = function keyPress(event) {
                 if (guessesRemaining == 0) {
 
                     // If so, end the game. Sorry.
-                    alert("GAME OVER");
+                    alert("You failed to spell " + activeWord.join(" ") + ". Maybe you'll get the next word...");
+
+                    // reset the game area
+                    gameStart();
                 }
 
             }
 
-        // if userLetter IS in lettersGuessed... 
+            // if userLetter IS in lettersGuessed... 
         } else {
 
             // Tell the user to pick something else
             alert("You have already guessed " + userLetter);
         }
 
-    // test to ensure non-alpha keys register
+        // test to ensure non-alpha keys register
     } else {
         console.log("please select a letter of the alphabet");
     }
-
 }
-// }
