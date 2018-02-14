@@ -1,4 +1,9 @@
 // BEGIN GLOBAL VARIABLES
+
+// Audio files for winning and losing
+var expelliarmus = new Audio('assets/audio/expelliarmus.mp3');
+var avada = new Audio('assets/audio/avada.mp3');
+
 // Number of wins - starts at zero, will increase as user accumulate wins.
 var wins = 0;
 document.querySelector("#win-count").innerHTML = wins;
@@ -30,19 +35,13 @@ var potterWords = [
 ]
 
 // Randomly choose a potterWord, converts to an array, and removes the word for subesquent rounds
-var potterIndex = Math.floor(Math.random() * potterWords.length);
-var activeWord = Array.from(potterWords[potterIndex]);
-
-// Show dashes in the dom in lieu of the activeWord
-for (i = 0; i < activeWord.length; i++) {
-    hiddenWord[i] = "-";
-}
-document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
+var potterIndex //= Math.floor(Math.random() * potterWords.length);
+var activeWord = []; //Array.from(potterWords[potterIndex]);
 
 // Number of guesses remaining. User will start with 15;
 var guessesRemaining = 15;
-document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 
+// Begin the game, as well as the reset after a word has been solved or all guesses used.
 function gameStart() {
 
     // reset letters that have been guessed.
@@ -69,11 +68,9 @@ function gameStart() {
     // Reset guesses to 15;
     guessesRemaining = 15;
     document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
-
 }
 
 gameStart();
-
 
 // When key pressed =================================================================================================
 document.onkeyup = function keyPress(event) {
@@ -125,6 +122,9 @@ document.onkeyup = function keyPress(event) {
                     wins++;
                     document.querySelector("#win-count").innerHTML = wins;
 
+                    // Play the winnging expelliarmus audio
+                    expelliarmus.play();
+
                     // Win!
                     alert("You correctly spelled " + activeWord.join(" ") + "! On to the next word...");
 
@@ -141,6 +141,9 @@ document.onkeyup = function keyPress(event) {
 
                 // Check to see if user has run out of guesses
                 if (guessesRemaining == 0) {
+
+                    // Play the losing avada kedavra audio
+                    avada.play();
 
                     // If so, end the game. Sorry.
                     alert("You failed to spell " + activeWord.join(" ") + ". Maybe you'll get the next word...");
