@@ -47,6 +47,7 @@ function gameStart() {
 
     // reset letters that have been guessed.
     lettersGuessed = [];
+    document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
 
     // reset the hidden word to be revealed letter by letter
     hiddenWord = [];
