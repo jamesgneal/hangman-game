@@ -17,6 +17,8 @@
 
 // END PSEUDOCODE
 
+
+// window.onload = function () {
 // BEGIN GLOBAL VARIABLES
 // Number of wins - starts at zero, will increase as user accumulate wins.
 var wins = 0;
@@ -48,14 +50,15 @@ var activeWord = potterWords[potterIndex];
 // Show dashes in the dom in lieu of the activeWord
 
 for (i = 0; i < activeWord.length; i++) {
-    document.getElementById("active-word").innerHTML = "-";
+    var dashNode = document.createTextNode("-");
+    document.getElementById("active-word").appendChild(dashNode);
 }
 
 // Number of guesses remaining. User will have a number of guesses 1.75x the length of the word to complete.
-// var guessesRemaining = Math.floor(activeWord.length * 1.75);
-// document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+var guessesRemaining = Math.floor(activeWord.length * 1.75);
+document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 // this won't work yet, so we're going with 15
-var guessesRemaining = 15;
+// var guessesRemaining = 15;
 
 // Letters that have been guessed.
 var lettersGuessed = [];
@@ -67,15 +70,8 @@ document.onkeyup = function keyPress(event) {
     var key = event.keyCode;
     if ((key >= 65 && key <= 90) || (key == 8)) {
 
-        // The number of guesses remaining is reduced and replaced in the DOM
-        guessesRemaining--;
-        document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
-
         //the charachter is captured, converted it to uppercase, and saves it to a variable
         var userLetter = String.fromCharCode(event.which).toUpperCase();
-
-        //the value of the variable is written to the chosen-letter ID in the document
-        document.querySelector("#chosen-letter").innerHTML = userLetter;
 
         // search the array for userLetter
         var findGuess = lettersGuessed.indexOf(userLetter);
@@ -87,9 +83,15 @@ document.onkeyup = function keyPress(event) {
             var addLetters = lettersGuessed.push(userLetter);
 
             // the value of the variable is written to the used-letters ID in the html document
-            // this produces a cleaner visual in lieu of just displaying the lettersGuessed array
-                var textNode = document.createTextNode(userLetter + " ");
-                document.querySelector("#used-letters").appendChild(textNode);
+            // .join(" ") produces a cleaner, minimal visual (no commas) in lieu of solely displaying the lettersGuessed array
+            document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
+
+            // The number of guesses remaining is reduced and replaced in the DOM
+            guessesRemaining--;
+            document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+
+            //the value of the variable is written to the chosen-letter ID in the document
+            document.querySelector("#chosen-letter").innerHTML = userLetter;
 
             // if userLetter IS in lettersGuessed... 
         } else {
@@ -102,3 +104,4 @@ document.onkeyup = function keyPress(event) {
     }
 
 }
+// }
