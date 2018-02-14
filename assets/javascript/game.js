@@ -19,10 +19,11 @@
 
 
 // window.onload = function () {
-    
+
 // BEGIN GLOBAL VARIABLES
 // Number of wins - starts at zero, will increase as user accumulate wins.
 var wins = 0;
+document.querySelector("#win-count").innerHTML = wins;
 
 // Letters that have been guessed.
 var lettersGuessed = [];
@@ -50,9 +51,10 @@ var potterWords = [
     "WAND",
 ]
 
-// Randomly choose a potterWord and convert to an array
+// Randomly choose a potterWord, converts to an array, and removes the word for subesquent rounds
 var potterIndex = Math.floor(Math.random() * potterWords.length);
 var activeWord = Array.from(potterWords[potterIndex]);
+potterWords.splice(potterIndex, 1);
 
 // Show dashes in the dom in lieu of the activeWord
 for (i = 0; i < activeWord.length; i++) {
@@ -60,8 +62,8 @@ for (i = 0; i < activeWord.length; i++) {
 }
 document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
 
-// Number of guesses remaining. User will have a number of guesses 1.75x the length of the word to complete.
-var guessesRemaining = Math.floor(activeWord.length * 1.75);
+// Number of guesses remaining. User will start with 15;
+var guessesRemaining = 15;
 document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 
 
@@ -108,12 +110,33 @@ document.onkeyup = function keyPress(event) {
                 // hiddenWord[findLetter] = userLetter;
                 console.log("you found the letter " + userLetter);
 
+                // Check if the user has guessed all the letters
+                var checkWin = hiddenWord.indexOf("-");
+
+                // If user has guessed all letters in activeWord...
+                if (checkWin === -1) {
+
+                    // Win!
+                    alert("YOU WIN!");
+
+                    // Increase the win count and display in the DOM
+                    wins++;
+                    document.querySelector("#win-count").innerHTML = wins;
+                }
+
             // If userLetter IS NOT in active Word
             } else {
 
-            // The number of guesses remaining is reduced and replaced in the DOM
-            guessesRemaining--;
-            document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+                // The number of guesses remaining is reduced and replaced in the DOM
+                guessesRemaining--;
+                document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
+
+                // Check to see if user has run out of guesses
+                if (guessesRemaining == 0) {
+
+                    // If so, end the game. Sorry.
+                    alert("GAME OVER");
+                }
 
             }
 
@@ -123,6 +146,7 @@ document.onkeyup = function keyPress(event) {
             // Tell the user to pick something else
             alert("You have already guessed " + userLetter);
         }
+
     // test to ensure non-alpha keys register
     } else {
         console.log("please select a letter of the alphabet");
