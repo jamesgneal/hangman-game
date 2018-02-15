@@ -1,15 +1,11 @@
-/* Custom Fonts */
+/* Custom Font */
 @font-face {
-   font-family: "lumos";
-   src: url("fonts/lumos.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "harrypotter";
-    src: url("fonts/lumos.ttf") format("truetype");
+    font-family: "ParryHotter";
+    src: url("fonts/ParryHotter.woff") format("woff");
+    src: url("fonts/ParryHotter.tff") format("truetype");
 }
 
 /* Header */
-h1 {
-    font-family: "harrypotter";
+p {
+    font-family: "ParryHotter";
 }
