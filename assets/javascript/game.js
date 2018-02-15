@@ -1,21 +1,22 @@
-// BEGIN GLOBAL VARIABLES
+$(document).ready(function() {
+  // BEGIN GLOBAL VARIABLES
 
-// Audio files for winning and losing
-var expelliarmus = new Audio('assets/audio/expelliarmus.mp3');
-var avada = new Audio('assets/audio/avada.mp3');
+  // Audio files for winning and losing
+  var expelliarmus = new Audio("assets/audio/expelliarmus.mp3");
+  var avada = new Audio("assets/audio/avada.mp3");
 
-// Number of wins - starts at zero, will increase as user accumulate wins.
-var wins = 0;
-document.querySelector("#win-count").innerHTML = wins;
+  // Number of wins - starts at zero, will increase as user accumulate wins.
+  var wins = 0;
+  document.querySelector("#win-count").innerHTML = wins;
 
-// Letters that have been guessed.
-var lettersGuessed = [];
+  // Letters that have been guessed.
+  var lettersGuessed = [];
 
-// The hidden word to be revealed letter by letter
-var hiddenWord = [];
+  // The hidden word to be revealed letter by letter
+  var hiddenWord = [];
 
-// Harry Potter-themed words to be guessed.
-var potterWords = [
+  // Harry Potter-themed words to be guessed.
+  var potterWords = [
     "HARRY",
     "HERMIONE",
     "RON",
@@ -31,22 +32,23 @@ var potterWords = [
     "QUIDDITCH",
     "HORCRUX",
     "PENSIEVE",
-    "WAND",
-]
+    "WAND"
+  ];
 
-// Randomly choose a potterWord, converts to an array, and removes the word for subesquent rounds
-var potterIndex //= Math.floor(Math.random() * potterWords.length);
-var activeWord = []; //Array.from(potterWords[potterIndex]);
+  // Randomly choose a potterWord, converts to an array, and removes the word for subesquent rounds
+  var potterIndex; //= Math.floor(Math.random() * potterWords.length);
+  var activeWord = []; //Array.from(potterWords[potterIndex]);
 
-// Number of guesses remaining. User will start with 15;
-var guessesRemaining = 15;
+  // Number of guesses remaining. User will start with 15;
+  var guessesRemaining = 15;
 
-// Begin the game, as well as the reset after a word has been solved or all guesses used.
-function gameStart() {
-
+  // Begin the game, as well as the reset after a word has been solved or all guesses used.
+  function gameStart() {
     // reset letters that have been guessed.
     lettersGuessed = [];
-    document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
+    document.querySelector("#used-letters").innerHTML = lettersGuessed.join(
+      " "
+    );
 
     // reset the hidden word to be revealed letter by letter
     hiddenWord = [];
@@ -61,108 +63,114 @@ function gameStart() {
 
     // Show dashes in the dom in lieu of the activeWord
     for (i = 0; i < activeWord.length; i++) {
-        hiddenWord[i] = "-";
+      hiddenWord[i] = "-";
     }
     document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
 
     // Reset guesses to 15;
     guessesRemaining = 15;
     document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
-}
+  }
 
-gameStart();
+  gameStart();
 
-// When key pressed =================================================================================================
-document.onkeyup = function keyPress(event) {
-
+  // When key pressed =================================================================================================
+  document.onkeyup = function keyPress(event) {
     // var key and conditional prevent the user from inputting non-alphabet characters
     var key = event.keyCode;
-    if ((key >= 65 && key <= 90) || (key == 8)) {
+    if ((key >= 65 && key <= 90) || key == 8) {
+      //the charachter is captured, converted to uppercase, and saves it to variable userLetter
+      var userLetter = String.fromCharCode(event.which).toUpperCase();
 
-        //the charachter is captured, converted to uppercase, and saves it to variable userLetter
-        var userLetter = String.fromCharCode(event.which).toUpperCase();
+      // Search lettersGuessed for the userLetter
+      var findGuessed = lettersGuessed.indexOf(userLetter);
 
-        // Search lettersGuessed for the userLetter
-        var findGuessed = lettersGuessed.indexOf(userLetter);
+      // if userLetter IS NOT in lettersGuessed...
+      if (findGuessed === -1) {
+        // push the key pressed to the lettersGuessed array
+        var addLetters = lettersGuessed.push(userLetter);
 
-        // if userLetter IS NOT in lettersGuessed...
-        if (findGuessed === -1) {
+        // the value of the variable is written to the used-letters ID in the html document
+        // .join(" ") produces a cleaner, minimal visual (no commas) in lieu of solely displaying the lettersGuessed array
+        document.querySelector("#used-letters").innerHTML = lettersGuessed.join(
+          " "
+        );
 
-            // push the key pressed to the lettersGuessed array
-            var addLetters = lettersGuessed.push(userLetter);
+        // Search activeWord for the userLetter
+        var findLetterIndex = activeWord.indexOf(userLetter);
 
-            // the value of the variable is written to the used-letters ID in the html document
-            // .join(" ") produces a cleaner, minimal visual (no commas) in lieu of solely displaying the lettersGuessed array
-            document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
-
-            // Search activeWord for the userLetter
-            var findLetterIndex = activeWord.indexOf(userLetter);
-
-            // If userLetter IS in activeWord...
-            if (~findLetterIndex) {
-
-                // Replace the dash in hiddenWord with the userLetter
-                for (u = 0; u < activeWord.length; u++) {
-                    if (activeWord[u] === userLetter) {
-                        hiddenWord[u] = userLetter;
-                        document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
-                    }
-                }
-
-                // hiddenWord[findLetter] = userLetter;
-                console.log("you found the letter " + userLetter);
-
-                // Check if the user has guessed all the letters
-                var checkWin = hiddenWord.indexOf("-");
-
-                // If user has guessed all letters in activeWord...
-                if (checkWin === -1) {
-
-                    // Increase the win count and display in the DOM
-                    wins++;
-                    document.querySelector("#win-count").innerHTML = wins;
-
-                    // Play the winnging expelliarmus audio
-                    expelliarmus.play();
-
-                    // Win!
-                    alert("You correctly spelled " + activeWord.join(" ") + "! On to the next word...");
-
-                    // reset the game area
-                    gameStart();
-                }
-
-            // If userLetter IS NOT in active Word
-            } else {
-
-                // The number of guesses remaining is reduced and replaced in the DOM
-                guessesRemaining--;
-                document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
-
-                // Check to see if user has run out of guesses
-                if (guessesRemaining == 0) {
-
-                    // Play the losing avada kedavra audio
-                    avada.play();
-
-                    // If so, end the game. Sorry.
-                    alert("You failed to spell " + activeWord.join(" ") + ". Maybe you'll get the next word...");
-
-                    // reset the game area
-                    gameStart();
-                }
-
+        // If userLetter IS in activeWord...
+        if (~findLetterIndex) {
+          // Replace the dash in hiddenWord with the userLetter
+          for (u = 0; u < activeWord.length; u++) {
+            if (activeWord[u] === userLetter) {
+              hiddenWord[u] = userLetter;
+              document.querySelector(
+                "#active-word"
+              ).innerHTML = hiddenWord.join(" ");
             }
+          }
 
-            // if userLetter IS in lettersGuessed... 
+          // hiddenWord[findLetter] = userLetter;
+          console.log("you found the letter " + userLetter);
+
+          // Check if the user has guessed all the letters
+          var checkWin = hiddenWord.indexOf("-");
+
+          // If user has guessed all letters in activeWord...
+          if (checkWin === -1) {
+            // Increase the win count and display in the DOM
+            wins++;
+            document.querySelector("#win-count").innerHTML = wins;
+
+            // Play the winnging expelliarmus audio
+            expelliarmus.play();
+
+            // Win!
+            alert(
+              "You correctly spelled " +
+                activeWord.join(" ") +
+                "! On to the next word..."
+            );
+
+            // reset the game area
+            gameStart();
+          }
+
+          // If userLetter IS NOT in active Word
         } else {
+          // The number of guesses remaining is reduced and replaced in the DOM
+          guessesRemaining--;
+          document.querySelector(
+            "#guesses-remaining"
+          ).innerHTML = guessesRemaining;
 
-            // Tell the user to pick something else
-            alert("You have already guessed " + userLetter);
+          // Check to see if user has run out of guesses
+          if (guessesRemaining == 0) {
+            // Play the losing avada kedavra audio
+            avada.play();
+
+            // If so, end the game. Sorry.
+            alert(
+              "You failed to spell " +
+                activeWord.join(" ") +
+                ". Maybe you'll get the next word..."
+            );
+
+            // reset the game area
+            gameStart();
+          }
         }
 
-        // test to ensure non-alpha keys register
+      // if userLetter IS in lettersGuessed...
+      } else {
+        // Tell the user to pick something else
+        alert("You have already guessed " + userLetter);
+      }
+
+    // test to ensure non-alpha keys register
     } else {
-        console.log("please select a letter of the alphabet");
+      console.log("please select a letter of the alphabet");
     }
-}
+  };
+});
