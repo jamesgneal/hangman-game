@@ -46,9 +46,7 @@ $(document).ready(function() {
   function gameStart() {
     // reset letters that have been guessed.
     lettersGuessed = [];
-    document.querySelector("#used-letters").innerHTML = lettersGuessed.join(
-      " "
-    );
+    document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
 
     // reset the hidden word to be revealed letter by letter
     hiddenWord = [];
@@ -161,12 +159,7 @@ $(document).ready(function() {
             gameStart();
           }
         }
-
-      // if userLetter IS in lettersGuessed...
-      } else {
-        // Tell the user to pick something else
-        alert("You have already guessed " + userLetter);
-      }
+      } 
 
     // test to ensure non-alpha keys register
     } else {

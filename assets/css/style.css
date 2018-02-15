@@ -1,19 +1,64 @@
-/* Headers */
-h1 {
-    font-family: "ParryHotter";
-}
-
-h5 {
-    margin-bottom: 50px;
-}
-
-p {
-    line-height: 100px;
-}
-
 /* Custom Font */
+
 @font-face {
     font-family: "ParryHotter";
     src: url("fonts/ParryHotter.woff") format("woff");
-    src: url("fonts/ParryHotter.tff") format("truetype");
 }
+
+@font-face {
+    font-family: "Lumos";
+    src: url("fonts/lumos.woff") format("woff");
+}
+
+/* Headers */
+h1 {
+    font-family: "ParryHotter";
+    line-height: 2.5;
+    font-size: 72px;
+    background: -webkit-linear-gradient(#FFF7CF, rgb(255, 183, 0));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0;
+}
+
+h2 {
+    font-family: "Lumos";
+    margin-bottom: 30px;
+    text-shadow: 0px 0px 4px #ffea96;
+    padding: 20px;
+}
+
+h3,
+h4 {
+    /* font-family: "ParryHotter"; */
+    text-shadow: -1px -1px rgb(97, 70, 0);
+    padding: 20px;
+    margin-top: 0px;
+
+}
+
+.game-box {
+    font-size: 14px;
+    padding: 5px 0;
+    color: #343A40;
+    background: -webkit-linear-gradient(rgb(237, 236, 239), rgb(188, 178, 187));
+    width: 100%;
+    margin-bottom: 0;
+    text-shadow: 1px 1px rgb(188, 178, 187);
+
+}
+
+/* .game-box {
+   padding: 20px;
+   margin: 10px;
+   background: #ff0030;
+   color: #fff;
+   font-size: 21px;
+   font-weight: bold;
+   line-height: 1.3em;
+   border: 2px dashed #fff;
+   border-radius: 10px;
+   box-shadow: 0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+   text-shadow: -1px -1px #aa3030;
+   font-weight: normal;
+ } */

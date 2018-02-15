@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hangman by Graham Neal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" src="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
     <script src="assets/javascript/game.js" type="text/javascript"></script>
 </head>
@@ -15,50 +15,57 @@
 <body class="bg-dark text-white">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 offset-md-2 text-center">
+            <div class="col-md-12 text-center">
                 <h1>
-                    HARRY POTTER HANGMAN
+                    Harry Potter Hangman
                 </h1>
-                <p>
+                <!-- <p>
                     Regular ol' hangman, but all the words are Harry Potter themed. Use your keyboard to select letters.
-                </p>
-                <h5>
-                    Press any key to get started!
-                </h5>
+                </p> -->
             </div>
         </div>
         <div class="row">
-            <div class="container">
+            <div class="col-md-12 text-center">
+                <p>
+                    CURRENT WORD
+                </p>
+                <h2 id="active-word">
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container text-center">
                 <div class="row">
-                    <div class="col-md-4 offset-md-2">
-                        <p>
-                            Wins:
+                    <div class="col-md-2 offset-md-2">
+                        <p class="game-box">
+                            WINS
                         </p>
-                        <h4 id="win-count"></h4>
-                        <p>
-                            Current Word:
-                        </p>
-                        <h4 id="active-word"></h4>
-                        <p>
-                            Guesses remaining:
-                        </p>
-                        <h4 id="guesses-remaining">
-                            15
-                        </h4>
-                        <p>
-                            Letters already guessed:
+                        <h3 id="win-count"></h3>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="game-box">
+                            LETTERS ALREADY GUESSED
                         </p>
                         <h4 id="used-letters">
                         </h4>
                     </div>
-                    <div class="col-md-4" id="game-image">
-                        <img src="assets/images/baselayer.png">
+                    <div class="col-md-2">
+                        <p class="game-box">
+                            GUESSES REMAINING
+                        </p>
+                        <h3 id="guesses-remaining">
+                            15
+                        </h3>
                     </div>
+
+                    <!-- <div class="col-md-4" id="game-image">
+                        <img src="assets/images/baselayer.png">
+                    </div> -->
                 </div>
             </div>
         </div>
     </div>
-    
+
 </body>
 
 </html>
