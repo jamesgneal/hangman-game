@@ -1,0 +1,15 @@
+/* Custom Fonts */
+@font-face {
+   font-family: "lumos";
+   src: url("fonts/lumos.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "harrypotter";
+    src: url("fonts/lumos.ttf") format("truetype");
+}
+
+/* Header */
+h1 {
+    font-family: "harrypotter";
+}
