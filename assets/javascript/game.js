@@ -128,7 +128,7 @@ $(document).ready(function() {
             // Reveal the word just guessed at the bottom of the screen
             document.querySelector("#right-or-wrong").innerHTML = "YOU CORRECTLY GUESSED";
             document.querySelector("#last-word").innerHTML = activeWord.join(" ") + "!";
-            document.querySelector("#game-image").innerHTML = '<img src="assets/images/baselayer.png">';
+            // document.querySelector("#game-image").innerHTML = '<img src="assets/images/baselayer.png">';
 
             // reset the game area
             gameStart();
@@ -148,7 +148,7 @@ $(document).ready(function() {
             // Reveal the word just guessed at the bottom of the screen
             document.querySelector("#right-or-wrong").innerHTML = "SORRY - YOU COULDN'T GUESS";
             document.querySelector("#last-word").innerHTML = activeWord.join(" ") + "!";
-            document.querySelector("#game-image").innerHTML = '<img src="assets/images/baselayer.png">';
+            // document.querySelector("#game-image").innerHTML = '<img src="assets/images/baselayer.png">';
 
             // reset the game area
             gameStart();
