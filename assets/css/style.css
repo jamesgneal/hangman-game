@@ -26,11 +26,18 @@ h1 {
     margin-bottom: 0;
 }
 
-h2 {
+h2,
+h5 {
     font-family: "Lumos";
     margin-bottom: 30px;
-    text-shadow: 0px 0px 4px #ffea96;
+    text-shadow: 0 0 4px #fce68d;
     padding: 20px;
+}
+
+h5 {
+    line-height: 1;
+    padding: 10px;
+    margin-bottom: 0;
 }
 
 h3,
@@ -46,7 +53,7 @@ h4 {
     font-family: "Cella";
     font-size: 13px;
     /* padding: 5px 0; */
-    color: rgb(188, 178, 187);
+    color: #fce68d;
     /* background: -webkit-linear-gradient(rgb(237, 236, 239), rgb(188, 178, 187)); */
     width: 100%;
     margin-bottom: 0;

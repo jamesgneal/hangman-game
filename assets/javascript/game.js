@@ -15,6 +15,10 @@ $(document).ready(function() {
   // The hidden word to be revealed letter by letter
   var hiddenWord = [];
 
+
+  // The last word played
+  // var lastWord = hiddenWord.push("!");
+
   // Harry Potter-themed words to be guessed.
   var potterWords = [
     "HARRY",
@@ -39,8 +43,8 @@ $(document).ready(function() {
   var potterIndex;
   var activeWord = [];
 
-  // Number of guesses remaining. User will start with 15;
-  var guessesRemaining = 15;
+  // Number of guesses remaining. User will start with 12;
+  var guessesRemaining = 12;
 
   // Begin the game, as well as the reset after a word has been solved or all guesses used.
   function gameStart() {
@@ -65,11 +69,12 @@ $(document).ready(function() {
     }
     document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
 
-    // Reset guesses to 15;
-    guessesRemaining = 15;
+    // Reset guesses to 12;
+    guessesRemaining = 12;
     document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
   }
 
+    // END GLOBAL VARIABLES +++++ LET'S PLAY!
   gameStart();
 
   // When key pressed =================================================================================================
@@ -90,9 +95,7 @@ $(document).ready(function() {
 
         // the value of the variable is written to the used-letters ID in the html document
         // .join(" ") produces a cleaner, minimal visual (no commas) in lieu of solely displaying the lettersGuessed array
-        document.querySelector("#used-letters").innerHTML = lettersGuessed.join(
-          " "
-        );
+        document.querySelector("#used-letters").innerHTML = lettersGuessed.join(" ");
 
         // Search activeWord for the userLetter
         var findLetterIndex = activeWord.indexOf(userLetter);
@@ -103,9 +106,7 @@ $(document).ready(function() {
           for (u = 0; u < activeWord.length; u++) {
             if (activeWord[u] === userLetter) {
               hiddenWord[u] = userLetter;
-              document.querySelector(
-                "#active-word"
-              ).innerHTML = hiddenWord.join(" ");
+              document.querySelector("#active-word").innerHTML = hiddenWord.join(" ");
             }
           }
 
@@ -117,19 +118,17 @@ $(document).ready(function() {
 
           // If user has guessed all letters in activeWord...
           if (checkWin === -1) {
+            // Play the winnging expelliarmus audio
+            expelliarmus.play();
+            
             // Increase the win count and display in the DOM
             wins++;
             document.querySelector("#win-count").innerHTML = wins;
-
-            // Play the winnging expelliarmus audio
-            expelliarmus.play();
-
-            // Win!
-            alert(
-              "You correctly spelled " +
-                activeWord.join(" ") +
-                "! On to the next word..."
-            );
+            
+            // Reveal the word just guessed at the bottom of the screen
+            document.querySelector("#right-or-wrong").innerHTML = "YOU CORRECTLY GUESSED";
+            document.querySelector("#last-word").innerHTML = activeWord.join(" ") + "!";
+            document.querySelector("#game-image").innerHTML = '<img src="assets/images/baselayer.png">';
 
             // reset the game area
             gameStart();
@@ -139,21 +138,17 @@ $(document).ready(function() {
         } else {
           // The number of guesses remaining is reduced and replaced in the DOM
           guessesRemaining--;
-          document.querySelector(
-            "#guesses-remaining"
-          ).innerHTML = guessesRemaining;
+          document.querySelector("#guesses-remaining").innerHTML = guessesRemaining;
 
           // Check to see if user has run out of guesses
           if (guessesRemaining == 0) {
             // Play the losing avada kedavra audio
             avada.play();
 
-            // If so, end the game. Sorry.
-            alert(
-              "You failed to spell " +
-                activeWord.join(" ") +
-                ". Maybe you'll get the next word..."
-            );
+            // Reveal the word just guessed at the bottom of the screen
+            document.querySelector("#right-or-wrong").innerHTML = "SORRY - YOU COULDN'T GUESS";
+            document.querySelector("#last-word").innerHTML = activeWord.join(" ") + "!";
+            document.querySelector("#game-image").innerHTML = '<img src="assets/images/baselayer.png">';
 
             // reset the game area
             gameStart();
