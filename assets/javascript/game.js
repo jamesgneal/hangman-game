@@ -36,8 +36,8 @@ $(document).ready(function() {
   ];
 
   // Randomly choose a potterWord, converts to an array, and removes the word for subesquent rounds
-  var potterIndex; //= Math.floor(Math.random() * potterWords.length);
-  var activeWord = []; //Array.from(potterWords[potterIndex]);
+  var potterIndex;
+  var activeWord = [];
 
   // Number of guesses remaining. User will start with 15;
   var guessesRemaining = 15;
