@@ -1,4 +1,4 @@
-/* Custom Font */
+/* Custom Fonts */
 
 @font-face {
     font-family: "ParryHotter";
@@ -8,6 +8,11 @@
 @font-face {
     font-family: "Lumos";
     src: url("fonts/lumos.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Cella";
+    src: url("fonts/cella.regular.otf") format("opentype");
 }
 
 /* Headers */
@@ -38,15 +43,17 @@ h4 {
 }
 
 .game-box {
-    font-size: 14px;
-    padding: 5px 0;
-    color: #343A40;
-    background: -webkit-linear-gradient(rgb(237, 236, 239), rgb(188, 178, 187));
+    font-family: "Cella";
+    font-size: 13px;
+    /* padding: 5px 0; */
+    color: rgb(188, 178, 187);
+    /* background: -webkit-linear-gradient(rgb(237, 236, 239), rgb(188, 178, 187)); */
     width: 100%;
     margin-bottom: 0;
-    text-shadow: 1px 1px rgb(188, 178, 187);
+    /* text-shadow: 1px 1px rgb(188, 178, 187); */
 
 }
+
 
 /* .game-box {
    padding: 20px;
